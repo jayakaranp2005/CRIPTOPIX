@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, Button, Entry, StringVar, messagebox
+from tkinter import Tk, Label, Button, Entry, StringVar, messagebox, filedialog
 from PIL import Image, ImageTk
 from enc import generate_and_save_key, load_key, main as m1
 from denc import decrypt_data, main as m2
@@ -9,13 +9,22 @@ root.title("Image Encryption App")
 root.geometry("400x500")
 root.configure(bg="#f0f0f0")
 
-# Load and display the logo image
-image = Image.open("img1.png")
-image = image.resize((100, 100))
-logo = ImageTk.PhotoImage(image)
+# Function to open a file dialog and select an image
+def select_image():
+    filepath = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
+    if not filepath:
+        return None
+    return filepath
 
-logo_label = Label(root, image=logo, bg="#f0f0f0")
-logo_label.pack(pady=10)
+# Load and display the logo image
+image_path = select_image()
+if image_path:
+    image = Image.open(image_path)
+    image = image.resize((100, 100))
+    logo = ImageTk.PhotoImage(image)
+
+    logo_label = Label(root, image=logo, bg="#f0f0f0")
+    logo_label.pack(pady=10)
 
 # Display the heading
 heading_label = Label(root, text="Image Encryption App", font=("Arial", 20, "bold"), fg="#003366", bg="#f0f0f0")
