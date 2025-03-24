@@ -1,15 +1,13 @@
 from PIL import Image
 from cryptography.fernet import Fernet
 import io
+from tkinter import Tk, filedialog
 
 def generate_and_save_key():
-   
     key = Fernet.generate_key()
-    
-    key_path='fernet_key.key'
+    key_path = 'fernet_key.key'
     with open(key_path, 'wb') as key_file:
         key_file.write(key)
-    
     print(f"Fernet Key saved to '{key_path}'.")
 
 def load_key(key_path='fernet_key.key'):
@@ -21,20 +19,33 @@ def load_key(key_path='fernet_key.key'):
 def encrypt_data(data, key):
     # Create a Fernet object with the key
     fernet = Fernet(key)
-    
     # Encrypt the data
     encrypted_data = fernet.encrypt(data)
     return encrypted_data
 
+def select_image():
+    # Initialize Tkinter root
+    root = Tk()
+    root.withdraw()  # Hide the root window
+    # Open file dialog to select an image
+    filepath = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
+    root.destroy()  # Destroy the root window
+    if not filepath:
+        raise FileNotFoundError("No file selected.")
+    return filepath
+
 def main():
     # Uncomment the line below to generate a new key (run this once)
-    generate_and_save_key()  
+    generate_and_save_key()
 
     # Load the Fernet key
     key = load_key()
 
+    # Select an image file
+    image_path = select_image()
+
     # Open the image file
-    with Image.open('img2.jpg') as img:
+    with Image.open(image_path) as img:
         # Convert image to bytes
         img_byte_arr = io.BytesIO()
         img.save(img_byte_arr, format=img.format)
@@ -51,5 +62,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
