@@ -9,22 +9,9 @@ root.title("Image Encryption App")
 root.geometry("400x500")
 root.configure(bg="#f0f0f0")
 
-# Function to open a file dialog and select an image
-def select_image():
-    filepath = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
-    if not filepath:
-        return None
-    return filepath
 
-# Load and display the logo image
-image_path = select_image()
-if image_path:
-    image = Image.open(image_path)
-    image = image.resize((100, 100))
-    logo = ImageTk.PhotoImage(image)
 
-    logo_label = Label(root, image=logo, bg="#f0f0f0")
-    logo_label.pack(pady=10)
+
 
 # Display the heading
 heading_label = Label(root, text="Image Encryption App", font=("Arial", 20, "bold"), fg="#003366", bg="#f0f0f0")
